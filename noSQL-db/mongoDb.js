@@ -6,6 +6,7 @@
  * Run this file with:
  *  node mongo-example.js
  */
+// example embedded collection //
 const rrCollection = {
   _id: '<ObjectId1>',
   product_id: 25167,
@@ -50,6 +51,7 @@ const rrCollection = {
   ],
 };
 
+// eslint-disable-next-line import/no-unresolved
 const mongoClient = require('mongodb').MongoClient;
 // 27017 is the default port for connecting to MongoDB
 const url = 'mongodb://localhost:27017/main';
