@@ -7,7 +7,7 @@
  *  node mongo-example.js
  */
 // example embedded collection //
-const rrCollection = {
+const reviewsCollection = {
   _id: '<ObjectId1>',
   product_id: 25167,
   ratings: {
@@ -61,6 +61,6 @@ mongoClient.connect(url, (err, db) => {
 
   db.createCollection('productData');
 
-  db.productData.insert(rrCollection);
+  db.productData.insert(reviewsCollection);
   db.close();
 });
