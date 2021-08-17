@@ -4,7 +4,7 @@ CREATE DATABASE reviewsratings;
 \c reviewsratings;
 
 CREATE TABLE IF NOT EXISTS reviews (
-	review_id serial PRIMARY KEY NOT NULL,
+	id serial PRIMARY KEY NOT NULL,
 	product_id integer NOT NULL,
 	rating integer NOT NULL,
 	date VARCHAR(20) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 	helpfulness integer NOT NULL DEFAULT 0
 ) ;
 
-COPY reviews(review_id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, email, response, helpfulness )
+COPY reviews(id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, email, response, helpfulness )
 FROM '/Users/mango/Documents/shortenedData/reviews.csv'
 DELIMITER ','
 CSV
@@ -27,7 +27,7 @@ HEADER;
 
 CREATE TABLE IF NOT EXISTS photos (
 	id serial PRIMARY KEY NOT NULL,
-	review_id integer NOT NULL REFERENCES reviews(review_id),
+	review_id integer NOT NULL REFERENCES reviews(id),
 	photo_url TEXT NOT NULL
 );
 
@@ -40,7 +40,7 @@ HEADER;
 CREATE TABLE IF NOT EXISTS characteristic_reviews (
 	id serial PRIMARY KEY NOT NULL,
 	characteristic_id integer NOT NULL,
-	review_id integer NOT NULL REFERENCES reviews(review_id),
+	review_id integer NOT NULL REFERENCES reviews(id),
 	value integer NOT NULL
 );
 
@@ -63,7 +63,10 @@ CSV
 HEADER;
 
 -- update null string to null
-UPDATE reviews SET response = NULL where response =  'null';
+UPDATE reviews SET response = '' where response =  'null';
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO calvin;
+
 
 
 -- indexes for faster queries
