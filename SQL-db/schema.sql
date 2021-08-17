@@ -26,12 +26,12 @@ HEADER;
 
 
 CREATE TABLE IF NOT EXISTS photos (
-	photo_id serial PRIMARY KEY NOT NULL,
+	id serial PRIMARY KEY NOT NULL,
 	review_id integer NOT NULL REFERENCES reviews(review_id),
 	photo_url TEXT NOT NULL
 );
 
-COPY photos(photo_id, review_id, photo_url)
+COPY photos(id, review_id, photo_url)
 FROM '/Users/mango/Documents/shortenedData/reviews_photos.csv'
 DELIMITER ','
 CSV
