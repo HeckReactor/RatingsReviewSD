@@ -62,6 +62,16 @@ DELIMITER ','
 CSV
 HEADER;
 
+-- update null string to null
+UPDATE reviews SET response = NULL where response =  'null';
+
+
+-- indexes for faster queries
+-- CREATE INDEX productID_index ON reviews (product_id);
+-- CREATE INDEX reviewID_photo_index ON photos (review_id);
+-- CREATE INDEX characteristicID_review_index ON review_characteristics (characteristic_id);
+-- CREATE INDEX reviewID_characteristics_index ON review_characteristics (review_id);
+
 
 
 
