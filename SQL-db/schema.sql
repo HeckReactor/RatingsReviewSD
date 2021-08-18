@@ -51,29 +51,26 @@ CSV
 HEADER;
 
 CREATE TABLE IF NOT EXISTS characteristics (
-	characteristic_id serial PRIMARY KEY NOT NULL,
+	id serial PRIMARY KEY NOT NULL,
 	product_id integer NOT NULL,
 	name varchar(16) NOT NULL
 );
 
-COPY characteristics(characteristic_id, product_id, name)
+COPY characteristics(id, product_id, name)
 FROM '/Users/mango/Documents/shortenedData/characteristics.csv'
 DELIMITER ','
 CSV
 HEADER;
 
--- update null string to null
+-- update null string to empty string
 UPDATE reviews SET response = '' where response =  'null';
-
+-- necessary or else i won't get back any data
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO calvin;
-
-
-
--- indexes for faster queries
--- CREATE INDEX productID_index ON reviews (product_id);
--- CREATE INDEX reviewID_photo_index ON photos (review_id);
--- CREATE INDEX characteristicID_review_index ON review_characteristics (characteristic_id);
--- CREATE INDEX reviewID_characteristics_index ON review_characteristics (review_id);
+-- Made indexes, should be faster
+CREATE INDEX productID_index ON reviews (product_id);
+CREATE INDEX reviewID_photo_index ON photos (review_id);
+CREATE INDEX characteristicID_review_index ON characteristic_reviews (characteristic_id);
+CREATE INDEX reviewID_characteristics_index ON characteristic_reviews(review_id);
 
 
 
