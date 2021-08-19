@@ -8,4 +8,6 @@ npm install express --save
 npm install nodemon
 npm install pg
 Worked on Schema
-Transferred Data over to database
+Transferred Data over to psql db
+installed artillery for testing
+
