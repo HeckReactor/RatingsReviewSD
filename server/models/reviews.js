@@ -43,7 +43,6 @@ module.exports = {
       values: [product, count, page],
     };
 
-    // deceipher these runes later
     try {
       const results = await client.query(query);
       return callback(null, results.rows);
