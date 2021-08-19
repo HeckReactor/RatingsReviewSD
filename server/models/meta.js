@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const db = require('../../SQL-db');
+const pool = require('../../SQL-db');
 
 module.exports = {
-  getRatings: ({ product_id }) => {
+  getRatings: async ({ product_id }) => {
+    const client = await pool.connect();
     const query = {
       text:
       `SELECT json_build_object
@@ -14,9 +15,17 @@ module.exports = {
       ORDER BY rating;`,
       values: [product_id],
     };
-    return db.query(query);
+    try {
+      const results = await client.query(query);
+      return results;
+    } catch (e) {
+      return e;
+    } finally {
+      client.release();
+    }
   },
-  getRecommend: ({ product_id }) => {
+  getRecommend: async ({ product_id }) => {
+    const client = await pool.connect();
     const query = {
       text:
       `SELECT json_build_object
@@ -26,9 +35,17 @@ module.exports = {
       GROUP BY recommend;`,
       values: [product_id],
     };
-    return db.query(query);
+    try {
+      const results = await client.query(query);
+      return results;
+    } catch (e) {
+      return e;
+    } finally {
+      client.release();
+    }
   },
-  getCharacteristics: ({ product_id }) => {
+  getCharacteristics: async ({ product_id }) => {
+    const client = await pool.connect();
     const query = {
       text:
       `SELECT json_build_object(
@@ -43,6 +60,13 @@ module.exports = {
       WHERE product_id = ${product_id}
       GROUP BY name, characteristic_id;`,
     };
-    return db.query(query);
+    try {
+      const results = await client.query(query);
+      return results;
+    } catch (e) {
+      return e;
+    } finally {
+      client.release();
+    }
   },
 };

@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
-const db = require('../../SQL-db');
+const pool = require('../../SQL-db');
 
 module.exports = {
-  getReviews: (queryParam, callback) => {
+  // async waits for asynchronous to finish doing what it gotta do
+  getReviews: async (queryParam, callback) => {
+    // now we wait for the pool to connect, let's name it client
+    const client = await pool.connect();
     const {
       page, count, sort, product,
     } = queryParam;
@@ -16,12 +19,13 @@ module.exports = {
     const query = {
       text: `SELECT
       reviews.id as review_id,
+            product_id,
             rating,
             summary,
             recommend,
             response,
             body,
-            date,
+            to_timestamp((date:: bigint)/1000) as date,
             reviewer_name,
             helpfulness,
             array_agg(
@@ -38,12 +42,15 @@ module.exports = {
             OFFSET $3;`,
       values: [product, count, page],
     };
-    db.query(query, (err, results) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, results.rows);
-      }
-    });
+
+    // deceipher these runes later
+    try {
+      const results = await client.query(query);
+      return callback(null, results.rows);
+    } catch (e) {
+      return callback(e);
+    } finally {
+      client.release();
+    }
   },
 };
