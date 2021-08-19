@@ -1,6 +1,12 @@
-/* eslint-disable import/extensions */
 const { Pool } = require('pg');
-const config = require('../.config.js');
-// you opened a pool but never closed it yo
-const pool = new Pool(config.pool);
+
+const pool = new Pool({
+  user: 'calvin',
+  host: 'localhost',
+  database: 'reviewsratings',
+  password: '',
+  port: 5432,
+  max: 15,
+  connectionTimeoutMillis: 2000,
+});
 module.exports = pool;
