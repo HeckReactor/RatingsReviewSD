@@ -10,4 +10,5 @@ npm install pg
 Worked on Schema
 Transferred Data over to psql db
 installed artillery for testing
-
+npm install dotenv
+npm install newrelic --save
